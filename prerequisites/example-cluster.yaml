@@ -1,0 +1,32 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: linkerd-workshop
+  region: us-west-2
+  tags:
+    auto-delete: "no"
+  version: "1.28"
+
+addons:
+- name: vpc-cni
+  version: latest
+  resolveConflicts: overwrite
+
+vpc:
+  subnets:
+    public:
+      us-west-2a: { id: subnet-<ID> }
+      us-west-2b: { id: subnet-<ID> }
+      us-west-2c: { id: subnet-<ID> }
+
+nodeGroups:
+  - name: ng-1
+    instanceType: t3.medium
+    desiredCapacity: 5
+    labels: { role: workers-1 }
+    volumeSize: 80
+    ssh:
+      allow: false
+    tags:
+      auto-delete: "no"
